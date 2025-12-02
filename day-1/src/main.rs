@@ -1,11 +1,15 @@
+use std::time::Instant;
+
 use crate::data::get_data;
 
 pub mod data;
 
 fn main() {
+    let start = Instant::now();
     let commands = get_data();
     let mut cursor: i16 = 50;
     let mut zeros: u16 = 0;
+
 
     // 0x434C49434B
     let method_2 = true;
@@ -28,10 +32,12 @@ fn main() {
                 zeros += 1;
             }
         }
-        println!("{command} {old_cursor} > {cursor}");
+        // println!("{command} {old_cursor} > {cursor}");
         if !method_2 && cursor == 0 {
             zeros += 1;
         }
     }
+    let duration = start.elapsed();
+    println!("Time elapsed: {:?}", duration);
     println!("The secret code is {zeros}");
 }
