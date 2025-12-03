@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, time::Instant};
 
 #[derive(Debug)]
 struct Range {
@@ -24,14 +24,14 @@ fn challenge_1() {
         for id in range.from..=range.to {
             if is_invalid_id(id) {
                 sum += id;
-                println!("Invalid id: {id}");
+                // println!("Invalid id: {id}");
             }
         }
     }
     println!("Secret code: {sum}")
 }
 
-fn challenge_2() {
+fn challenge_2() -> usize{
     let contents = fs::read_to_string("src/input.txt").unwrap();
     let ranges = ranges_from_string(&contents);
     let mut sum = 0;
@@ -39,11 +39,11 @@ fn challenge_2() {
         for id in range.from..=range.to {
             if is_invalid_id_2(id) {
                 sum += id;
-                println!("Invalid id: {id}");
+                // println!("Invalid id: {id}");
             }
         }
     }
-    println!("Secret code: {sum}")
+    sum
 }
 
 fn ranges_from_string(str: &str) -> Vec<Range> {
@@ -86,7 +86,11 @@ fn is_invalid_id_2(id: usize) -> bool {
 }
 
 fn main() {
-    challenge_2();
+    let start = Instant::now();
+    let code = challenge_2();
+    let duration = start.elapsed();
+    println!("Secret code: {code}");
+    println!("Time elapsed: {:?}", duration);
 }
 
 
