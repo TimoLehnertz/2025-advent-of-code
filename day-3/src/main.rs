@@ -12,13 +12,13 @@ fn challenge(count: usize) -> usize {
     }
     let mut sum: usize = 0;
     for number_line in number_lines {
-        let digits = find_max(&number_line, count);
-        sum += compute_value(&digits);
+        let digits = find_max_digits(&number_line, count);
+        sum += compute_number_from_digits(&digits);
     }
     sum
 }
 
-fn compute_value(digits: &[u8]) -> usize {
+fn compute_number_from_digits(digits: &[u8]) -> usize {
     let mut sum = 0;
     for i in 0..digits.len() {
         sum += digits[i] as usize * (10 as usize).pow(digits.len() as u32 - i as u32 - 1);
@@ -26,12 +26,12 @@ fn compute_value(digits: &[u8]) -> usize {
     sum
 }
 
-fn find_max(numbers: &[u8], count: usize) -> Vec<u8> {
+fn find_max_digits(numbers: &[u8], count: usize) -> Vec<u8> {
     let mut max_digits = Vec::with_capacity(count);
-    let mut indices = Vec::with_capacity(count);
+    // let mut indices = Vec::with_capacity(count);
     for _ in 0..count {
         max_digits.push(0); // Default digit
-        indices.push(0);
+        // indices.push(0);
     }
 
     for i in 0..(numbers.len()) {
@@ -44,11 +44,11 @@ fn find_max(numbers: &[u8], count: usize) -> Vec<u8> {
         for n in (count - remaining_numbers.min(count))..count {
             if number > max_digits[n] {
                 max_digits[n] = number;
-                indices[n] = i;
+                // indices[n] = i;
                 for m in (n + 1)..count {
                     // Reset all following digits
                     max_digits[m] = 0;
-                    indices[m] = 0;
+                    // indices[m] = 0;
                 }
                 break; // don't infer the others
             }
@@ -94,6 +94,9 @@ fn find_max(numbers: &[u8], count: usize) -> Vec<u8> {
 
 fn main() {
     let start = Instant::now();
+    // challenge 1
+    // let secret_code = challenge(2);
+    // challenge 2
     let secret_code = challenge(12);
     let duration = start.elapsed();
     println!("secret code: {secret_code}");
