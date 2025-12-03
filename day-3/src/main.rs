@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fs, time::Instant};
+use std::{fs, time::Instant};
 
 fn challenge(count: usize) -> usize {
     let contents = fs::read_to_string("src/input.txt").unwrap();
@@ -38,7 +38,7 @@ fn find_max(numbers: &[u8], count: usize) -> Vec<u8> {
         let number = numbers[i];
 
         // Number of digits to come after this one
-        let remaining_numbers = numbers.len() - i - 1;
+        let remaining_numbers = numbers.len() - i;
 
         // Start at the first digit that could get chosen at the current position
         for n in (count - remaining_numbers.min(count))..count {
@@ -55,23 +55,46 @@ fn find_max(numbers: &[u8], count: usize) -> Vec<u8> {
         }
     }
 
-    let indices_set: HashSet<usize> = indices.iter().copied().collect();
-    for (i, digit) in numbers.iter().enumerate() {
-        if indices_set.contains(&i) {
-            // Blue ANSI color code
-            print!("\x1b[34m{}\x1b[0m", digit);
-        } else {
-            print!("{}", digit);
-        }
-    }
-    println!(" digits: {max_digits:?}, indices: {indices:?}"); // Newline at the end
+    // let old_solution = find_max_old(numbers);
+
+    // if old_solution.0 != max_digits[0] || old_solution.1 != max_digits[1] {
+    //     println!("old: {old_solution:?}");
+
+    //     let indices_set: HashSet<usize> = indices.iter().copied().collect();
+    //     for (i, digit) in numbers.iter().enumerate() {
+    //         if indices_set.contains(&i) {
+    //             // Blue ANSI color code
+    //             print!("\x1b[34m{}\x1b[0m", digit);
+    //         } else {
+    //             print!("{}", digit);
+    //         }
+    //     }
+    //     println!(" digits: {max_digits:?}, indices: {indices:?}"); // Newline at the end
+    // }
 
     max_digits
 }
 
+// fn find_max_old(numbers: &[u8]) -> (u8, u8) {
+//     let mut num_1 = 0;
+//     let mut num_2 = 0;
+
+//     for i in 0..(numbers.len()) {
+//         let number = numbers[i];
+//         let is_last = i == numbers.len() - 1;
+//         if number > num_1 && !is_last {
+//             num_1 = number;
+//             num_2 = 0;
+//         } else if number > num_2 {
+//             num_2 = number;
+//         }
+//     }
+//     (num_1, num_2)
+// }
+
 fn main() {
     let start = Instant::now();
-    let secret_code = challenge(2);
+    let secret_code = challenge(12);
     let duration = start.elapsed();
     println!("secret code: {secret_code}");
     println!("time: {duration:?}");
